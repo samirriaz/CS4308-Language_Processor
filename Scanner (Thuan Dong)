@@ -1,0 +1,93 @@
+import java.util.*;
+public class Scanner{
+    
+    // Types od operation for this code to analyze
+    private static enum Type {
+        ADD, SUBTRACT, MULTIPLY, DIVIDE, REMAINDER, OPERAND
+    }
+    
+     //Token class which holds the type and value of the parsed token
+    private static class Token<TT, TV> {
+        private final TType t;
+        private final TValue value;
+        
+      
+    //Token constructon
+    public Token(TType t, TValue value) {
+            this.t = t;
+            this.value = value;
+        }
+    
+   //Returns the token's value and lexical category
+   @Override
+   public String toString() {
+            return "Token text: " + this.value + System.getProperty("line.separator") + "Token lexical category: " + this.t;
+        }
+    }
+   
+     //Gets an operand starting at the specified index
+     //Parses both variable names and numeric literaly
+    private static String getOperand(String operand, int index) {
+        int i = index;
+        for( ; i < operand.length(); ) {
+            if(Character.isLetterOrDigit(operand.charAt(i))) {
+                i++;
+            }
+            else {
+                return operand.substring(index, i);
+            }
+        }
+        return operand.substring(index, i);
+    }
+    
+    //Lexically analyzes the expression
+    private static LinkedList<Token<Type, String>> analyze(String expression) {
+        LinkedList<Token<Type, String>> tokens = new LinkedList<>();
+        for(int i = 0; i < expression.length(); ) {
+            char curChar = expression.charAt(i);
+            switch(currentCharacter) {
+                case '+':
+                    tokens.add(new Token<>(Type.ADD, String.valueOf(curChar)));
+                    i++;
+                    break;
+                case '-':
+                    tokens.add(new Token<>(Type.SUBTRACT, String.valueOf(curChar)));
+                    i++;
+                    break;
+                case '*':
+                    tokens.add(new Token<>(Type.MULTIPLY, String.valueOf(curChar)));
+                    i++;
+                    break;
+                case '/':
+                    tokens.add(new Token<>(Type.DIVIDE, String.valueOf(curChar)));
+                    i++;
+                    break;
+                case '%':
+                    tokens.add(new Token<>(Type.REMAINDER, String.valueOf(curChar)));
+                    i++;
+                    break;
+                default:
+                    if(Character.isWhitespace(curChar)) {
+                        i++;
+                    }
+                    else {
+                        
+                        //Get the operand and increment the counter by the operand's length to continue parsing the expression
+                        String operand = ArithmeticLexer.getOperand(expression, i);
+                        i += operand.length();
+                        tokens.add(new Token<>(Type.OPERAND, operand));
+                    }
+                    break;
+            }
+        }
+        return tokens;
+    }
+    
+     //Lexically analyzes input and prints out tokens and their associated value
+    public static void main(String[] args) {
+        LinkedList<Token<Type, String>> tokens = ArithmeticLexer.analyze(args[0]);
+        for(Token token : tokens) {
+            System.out.println(token);
+        }
+    }
+}
