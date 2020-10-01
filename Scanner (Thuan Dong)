@@ -7,13 +7,13 @@ public class Scanner{
     }
     
      //Token class which holds the type and value of the parsed token
-    private static class Token<TT, TV> {
+    private static class Token<TType, TValue> {
         private final TType t;
         private final TValue value;
         
       
-    //Token constructon
-    public Token(TType t, TValue value) {
+    // constructon
+    public Scanner(TType t, TValue value) {
             this.t = t;
             this.value = value;
         }
