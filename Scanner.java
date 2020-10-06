@@ -1,4 +1,5 @@
-import java.util.*
+  
+import java.util.*;
 import java.util.LinkedList;
 
 public class Scanner {
@@ -14,7 +15,7 @@ public class Scanner {
     private final T_Val value;
     private final T_Type type;
     
-  public Scanner(T_Val value, T_Type type) {
+  public Token(T_Val value, T_Type type) {
     this.type = type;
     this.value = value;
   }
@@ -28,14 +29,15 @@ public class Scanner {
 
 // getOperand: takes in a string and index and returns operand at that index
 private static String getOperand(String op, int index) {
-  for (int i=index; i<op.length(); {
+  for (int i=index; i<op.length;) {
     if (Character.isLetterOrDigit(op.charAt(i))) {
       i++;
     }
     else {
     return op.substring(index, i);
   }
-  return op.substring(index, i)
+  return op.substring(index, i);
+}
 }
   public static void main(String[] args) {
     // Save the Ada code as a String
@@ -51,4 +53,3 @@ private static String getOperand(String op, int index) {
     getOperand(ADA_CODE, 0);
 
   }
-}
