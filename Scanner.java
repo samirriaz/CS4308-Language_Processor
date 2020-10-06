@@ -2,7 +2,7 @@
 import java.util.*;
 import java.util.LinkedList;
 
-public class Scanner {
+public class scanner {
 
   // operations to test
   private static enum Type {
@@ -28,20 +28,23 @@ public class Scanner {
 }
 
 // getOperand: takes in a string and index and returns operand at that index
-private static String getOperand(String op, int index) {
-  for (int i=index; i<op.length;) {
+public static String getOperand(String op, int index) {
+  for (int i=index; i<op.length();) {
     if (Character.isLetterOrDigit(op.charAt(i))) {
       i++;
-    }
+         }
     else {
     return op.substring(index, i);
-  }
+         }
   return op.substring(index, i);
+    }
+  }
 }
-}
+class Test extends scanner{
   public static void main(String[] args) {
     // Save the Ada code as a String
     // Use getOperand to parse through this String & print tokens
+    scanner scan = new scanner();
     String ADA_CODE =
       "procedure Main is" +
       "begin" +
@@ -50,6 +53,7 @@ private static String getOperand(String op, int index) {
       "s : String := \"The sum of \";" +
       "Put_Line (s & a & \" and \" & b & \" is \" & (a+b) );" +
       "end";
-    getOperand(ADA_CODE, 0);
+    scan.getOperand(ADA_CODE, 0);
 
   }
+}
