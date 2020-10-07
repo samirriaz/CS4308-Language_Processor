@@ -10,7 +10,7 @@ public class LexicalScanner {
 
         int lines=1;
 
-        Scanner scan = new java.util.Scanner(System.in);
+        Scanner scan = new Scanner(System.in);
         System.out.println("Enter Ada Code line-by-line inserting a space between ALL tokens.\nEnter 0 when finished.");
         //                                               ^This^ breaks the WHILE loop
         // Each WHILE iteration is 1 line of Ada code entered
