@@ -10,8 +10,8 @@ public class LexicalScanner {
 
         int lines=1;
 
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Enter Ada Code line-by-line inserting a space between ALL tokens.\nEnter 0 when finished.");
+        Scanner scan = new java.util.Scanner(System.in);
+        System.out.println("Enter Ada Code line-by-line.\nInsert a space between ALL tokens.\nEnter 0 when finished.");
         //                                               ^This^ breaks the WHILE loop
         // Each WHILE iteration is 1 line of Ada code entered
         while (true) {
@@ -38,8 +38,10 @@ public class LexicalScanner {
     // 'category' is passed each token individually
     // each token is cross-referenced with the provided arrays of different lexeme categories
     //          CONSIDER REWORKING...could drastically slow down execution.
-    public String category(String token) {
+    public static String category(String token) {
         String token_lex = "NonLexeme", token_id="VAR_ID";
+
+        // Test for Keywords
         LinkedList ada_keywords = new LinkedList(Arrays.asList("abort","abs","abstract","accept","access", "aliased","all","and","array","at",
                  "begin","body","case","constant","declare","delay","delta","digits","do",
                  "else","elsif","end","entry","exception","exit","for","function","generic","goto",
@@ -52,25 +54,41 @@ public class LexicalScanner {
         while (iterate_keywords.hasNext()) {
             if (iterate_keywords.next().equals(token)) {
                 token_lex = "Lexeme";
+                token_id = "KEYWORD";
             }
         }
 
-        LinkedList operators = new LinkedList(Arrays.asList( "+","-","*","/","="));
+        // Test for Operators
+        LinkedList operators = new LinkedList(Arrays.asList("+","-","*","/","=",":"));
         ListIterator iterate_ops = operators.listIterator();
         while (iterate_ops.hasNext()) {
             if (iterate_ops.next().equals(token)) {
                 switch (token) {
                     case "+":
                         token_id="PLUS";
+                        break;
                     case "-":
                         token_id="MINUS";
+                        break;
                     case "*":
                         token_id="TIMES";
+                        break;
                     case "/":
                         token_id="DIVIDE";
+                        break;
                     case "=":
                         token_id="ASSIGN";
+                        break;
+                    case ":":
+                        token_id="COLON";
+                        break;
                 }
+            }
+        }
+        // Test for Numeric Literals
+        for (char c : token.toCharArray()) {
+            if (Character.isDigit(c)) {
+                token_id="NUM_LITERAL";
             }
         }
         return "" + token_lex + "..." + token_id;
@@ -79,18 +97,10 @@ public class LexicalScanner {
         LinkedList tokens = new LinkedList();
         int lines = prompt_user(tokens);
         for (int i=0; i<tokens.size(); i++) {
-            System.out.print("Tokens[" + i + "]: ");
-            System.out.println(tokens.get(i));
+            System.out.print("Token[" + i + "]: ");
+            System.out.print(tokens.get(i));
+            System.out.println("\t" + category((String)tokens.get(i)) + "");
         }
         System.out.println("Number of lines: " + (lines-1) +"\n\n");
     }
 }
-
-
-/*
-User enters line.
-Split the line, save each word into array
-Use array to update main output LinkedList
-
-
- */
